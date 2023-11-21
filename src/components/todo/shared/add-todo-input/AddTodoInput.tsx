@@ -1,16 +1,17 @@
-import { useState, KeyboardEvent, ChangeEvent } from "react";
+import { KeyboardEvent as ReactKeyboardEvent, ChangeEvent } from "react";
+import useAddTodoInput from "./hooks/useAddTodoInput";
 
 interface AddTodoInput {
   onAddTodo: (content: string) => void;
 }
 
 const AddTodoInput = ({ onAddTodo }: AddTodoInput) => {
-  const [content, setContent] = useState("");
+  const { content, setContent, inputRef } = useAddTodoInput();
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) =>
     setContent(e.target.value);
 
-  const onAddNote = (e: KeyboardEvent<HTMLInputElement>) => {
+  const onAddNote = (e: ReactKeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && content.trim() !== "") {
       e.preventDefault();
       onAddTodo(content.trim());
@@ -32,10 +33,11 @@ const AddTodoInput = ({ onAddTodo }: AddTodoInput) => {
         </svg>
       </div>
       <input
+        ref={inputRef}
         type="text"
         data-testid="add-todo"
-        placeholder="new todo..."
-        className="block w-full mt-8 pl-10 p-2 bg-slate-50 border border-gray-300 text-slate-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500"
+        placeholder="add new todo (ctrl + y)"
+        className="block w-full mt-8 pl-10 p-2 bg-slate-50 border border-gray-300 text-slate-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 focus:outline-blue-500"
         onChange={onChange}
         onKeyDown={onAddNote}
         value={content}

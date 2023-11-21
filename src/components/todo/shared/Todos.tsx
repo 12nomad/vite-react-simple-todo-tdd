@@ -8,11 +8,12 @@ interface ITodos {
 
 const Todos = ({ todos, onToggleActiveTodo, onDeleteTodo }: ITodos) => {
   return (
-    <ul className="mt-2 ml-4 space-y-4" data-testid="todos-list">
+    <ul className="mt-4 mx-4 space-y-4" data-testid="todos-list">
       {todos.length > 0 ? (
         todos.map((todo) => (
           <li
             data-isactive={todo.isActive}
+            data-testid="todo-item"
             onClick={() => onToggleActiveTodo(todo.id)}
             key={todo.id}
             className="relative flex justify-between w-full items-center"
